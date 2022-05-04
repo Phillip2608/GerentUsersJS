@@ -1,19 +1,21 @@
-var nome = document.querySelector("#exampleInputName");
-var gender = document.querySelectorAll("#form-user-create [name=gender]:checked");
-var birth = document.querySelector("#exampleInputBirth");
-var country = document.querySelector("#exampleInputCountry");
-var email = document.querySelector("#exampleInputEmail");
-var pass = document.querySelector("#exampleInputPassword");
-var file = document.querySelector("#exampleInputFile");
-var admin = document.querySelector("#exampleInputAdmin");
-
 var fields = document.querySelectorAll("#form-user-create [name]");
+var user = {};
 
-fields.forEach(function(field, index){
+document.getElementById("form-user-create").addEventListener("submit", function(event){
+    event.preventDefault();
 
-    if(field.name == "gender" && field.checked) {
-        console.log("SIM", field);
-    }else{
-        console.log("NAO", field);
-    }
+    fields.forEach(function(field, index){
+
+        if(field.name == "gender") {
+
+            if(field.checked){
+                user[field.name] = field.value;
+            }
+            console.log(field);
+        }else{
+            user[field.name] = field.value;
+        }
+    });
+    console.log(user);
 });
+
