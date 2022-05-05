@@ -73,8 +73,16 @@ class UserController{
     getValues(){
 
         let user = {};
+        let isValid = true;
         //... SERVE PARA CONTAR QUANTOS ElEMENTOS TEM NUM ARRAY SEM PRECISAR COLOCAR A QUANTIDADE DE ELEMENTOS!!!
         [...this.formEl.elements].forEach((field, index) => {
+
+            if(['name', 'email', 'password'].indexOf(field.name) > -1  && !field.value){
+
+                field.parentElement.classList.add('has-error');
+                isValid = false;
+
+            }
 
             if(field.name == "gender") {
     
@@ -89,7 +97,12 @@ class UserController{
             }
         });
     
-        return new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
+        if(isValid){
+            return new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
+        }else{
+            return false;
+        }
+
     }
 
     
