@@ -38,21 +38,11 @@ class UserController{
                         result._photo = content;
                     }
 
-                    tr.dataset.user = JSON.stringify(values);
+                    let user = new User();
 
-                    tr.innerHTML = `
-                        <td><img src="${result._photo}" alt="User Image" class="img-circle img-sm"></td>
-                        <td>${result._name}</td>
-                        <td>${result._email}</td>
-                        <td>${(result._admin) ? 'Sim' : 'Nao'}</td>
-                        <td>${Utils.dateFormat(result._register)}</td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
-                            <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
-                        </td>
-                    `;
+                    user.loadFromJSON(result);
 
-                    this.addEventsTR(tr);
+                    this.getTr(user, tr);
 
                     this.updateCount();
 
@@ -216,9 +206,19 @@ class UserController{
 
     addLine(dataUser){
 
-        let tr = document.createElement('tr');
+        let tr = this.getTr(dataUser);
 
-        tr.dataset.user = JSON.stringify(dataUser); 
+        this.tableEl.appendChild(tr);
+
+        this.updateCount();
+
+
+    }
+
+    getTr(dataUser, tr = null){
+        if(tr == null) tr = document.createElement('tr');
+
+        tr.dataset.user = JSON.stringify(dataUser);
 
         tr.innerHTML = `
             <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
@@ -234,11 +234,7 @@ class UserController{
 
         this.addEventsTR(tr);
 
-        this.tableEl.appendChild(tr);
-
-        this.updateCount();
-
-
+        return tr;
     }
 
     addEventsTR(tr){
